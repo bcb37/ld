@@ -1,6 +1,9 @@
 var webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: './app/driver.js',
   module: {
     rules: [
@@ -12,6 +15,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/static/js',
+    publicPath: "/static/js",
     filename: 'bundle.js'
   },
   plugins: [
@@ -24,5 +28,17 @@ module.exports = {
   },
   resolveLoader: {
     modules: [__dirname + '/node_modules']
-  }
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, '.')
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+      inject: false 
+    }),
+    new webpack.NamedModulesPlugin(),
+    // new webpack.HotModuleReplacementPlugin()
+  ]
 };
